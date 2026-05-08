@@ -1,0 +1,117 @@
+SECTION 1: MACHINE LEARNING FUNDAMENTALS
+
+Machine learning is divided into three main types: supervised learning, unsupervised learning, and reinforcement learning. Supervised learning trains models on labeled examples where the correct output is known, covering tasks such as classification and regression. Unsupervised learning discovers structure in unlabeled data, including clustering and dimensionality reduction. Reinforcement learning trains agents to make sequential decisions by interacting with an environment and receiving reward signals.
+
+Overfitting occurs when a model learns the training data too well, including its noise and idiosyncrasies, leading to poor generalization on new unseen data. An overfit model achieves very low training error but high validation or test error. Symptoms include excessive model complexity relative to the dataset size and a large gap between training and validation performance.
+
+The bias-variance tradeoff describes the balance between two sources of error. High bias means the model is too simple and underfits the data, missing important patterns. High variance means the model is overly sensitive to training data fluctuations and overfits. The optimal model balances both bias and variance to minimize total error.
+
+Regularization is a family of techniques that prevent overfitting by adding penalty terms to the loss function to discourage overly complex models. L1 regularization (Lasso) adds the absolute value of weights and produces sparse solutions. L2 regularization (Ridge) adds the squared value of weights and shrinks them toward zero. Dropout, early stopping, and data augmentation are also regularization methods.
+
+Cross-validation is a model evaluation technique that splits data into multiple folds to estimate model performance more reliably. In k-fold cross-validation, the dataset is divided into k equally sized subsets; the model is trained on k-1 folds and evaluated on the remaining one, repeated k times. This reduces variance in performance estimates compared to a single train/test split.
+
+SECTION 2: NEURAL NETWORKS
+
+Backpropagation is the core training algorithm for neural networks. It computes gradients of the loss function with respect to each weight by applying the chain rule of calculus, propagating errors backward from the output layer to earlier layers. These gradients are then used by an optimizer such as SGD or Adam to update weights.
+
+Convolutional Neural Networks (CNNs) are specialized for processing grid-like data such as images. They use convolutional layers that apply learnable filters across spatial locations, exploiting translation invariance and local connectivity. CNNs are the backbone of computer vision tasks including image classification, object detection, and segmentation.
+
+Long Short-Term Memory (LSTM) networks address the vanishing gradient problem of vanilla recurrent neural networks. LSTMs use gating mechanisms — input, forget, and output gates — that control information flow through the network. These gates allow the model to retain long-term dependencies without gradients vanishing during backpropagation through time.
+
+Common activation functions used in neural networks include ReLU, sigmoid, and tanh. ReLU (Rectified Linear Unit) outputs the input directly if positive and zero otherwise; it is the default for hidden layers in most modern networks. Sigmoid squashes inputs to (0,1) and is used for binary classification. Tanh squashes inputs to (-1,1) and is sometimes used in hidden layers.
+
+Pooling layers in CNNs reduce spatial dimensions, decreasing computational complexity while retaining the most important features. Max pooling keeps the maximum value in each window; average pooling keeps the mean. Pooling also provides a small amount of translation invariance.
+
+SECTION 3: TRANSFORMERS AND NLP
+
+The transformer architecture uses self-attention mechanisms and processes entire sequences in parallel rather than sequentially. It was introduced in the paper "Attention Is All You Need" in 2017. Transformers consist of stacked encoder and decoder blocks composed of multi-head self-attention and feed-forward layers, plus residual connections and layer normalization.
+
+Word embeddings represent words as dense numerical vectors in a continuous space where semantically similar words are geometrically close. Classical methods include Word2Vec and GloVe; modern contextual embeddings come from transformer language models. Embeddings capture analogy relationships such as king − man + woman ≈ queen.
+
+Transfer learning in NLP refers to pre-training large language models on massive text corpora and then fine-tuning them on smaller, task-specific datasets for downstream tasks. This approach drastically reduces the data and compute needed for new tasks and is the foundation of modern NLP.
+
+BERT (Bidirectional Encoder Representations from Transformers) handles language understanding using bidirectional transformer training with two pre-training objectives: masked language modeling and next sentence prediction. Bidirectionality means BERT considers both left and right context simultaneously, unlike earlier left-to-right or right-to-left models.
+
+Self-attention in transformers allows the model to weigh the importance of different words relative to each other within the same sequence. For each token, it computes query, key, and value vectors and produces a weighted sum of values according to the dot product between queries and keys. Multi-head attention runs several self-attention operations in parallel.
+
+GPT (Generative Pre-trained Transformer) is trained using autoregressive (causal) language modeling: the model predicts the next token given previous tokens. It is trained on massive text datasets in a self-supervised manner, then can be fine-tuned or prompted for downstream tasks. GPT uses only the decoder portion of the transformer with masked self-attention.
+
+Instruction tuning is the process of fine-tuning pre-trained large language models on instruction-following datasets — pairs of natural-language instructions and desired outputs — to improve their alignment with human intent. After instruction tuning, models follow zero-shot natural-language commands much more reliably.
+
+RLHF (Reinforcement Learning from Human Feedback) is a technique that uses human preferences to align large language models so they are helpful, harmless, and honest. The process collects human comparisons between model outputs, trains a reward model on those preferences, then uses reinforcement learning (typically PPO) to optimize the LLM against the reward model.
+
+Chain-of-thought prompting is a prompting technique that encourages large language models to show their reasoning step by step before producing a final answer. By eliciting intermediate reasoning steps, chain-of-thought prompting significantly improves performance on complex multi-step tasks such as arithmetic and commonsense reasoning.
+
+GPT-4 supports a context length of up to 128,000 tokens (often written as 128K tokens). This long context window allows the model to ingest entire books, long documents, or large codebases in a single prompt, enabling more sophisticated retrieval-light workflows.
+
+SECTION 4: RETRIEVAL-AUGMENTED GENERATION (RAG)
+
+Retrieval-Augmented Generation (RAG) combines generative large language models with retrieval from external knowledge bases to produce grounded, up-to-date answers. RAG addresses LLM limitations such as hallucinations and stale training data by injecting relevant external context at inference time.
+
+The main components of a RAG pipeline are a retriever that searches a document store and a generator (the LLM) that produces answers from the user query and retrieved passages. Retrievers may use dense embeddings, sparse keyword indexes, or both. Generators are typically instruction-tuned LLMs.
+
+Dense retrieval uses neural embeddings to encode queries and documents into vectors, then determines relevance by cosine similarity (or another distance metric) in the embedding space. Dense retrieval captures semantic similarity beyond exact keyword matching, but typically requires a learned encoder and a vector index.
+
+Chunking strategy is important in RAG because chunks affect retrieval precision and how well the retrieved context fits within the LLM's context window. Common strategies include fixed-size chunking (e.g., 500 tokens with overlap), semantic chunking (splitting on natural boundaries), and hierarchical chunking (parent/child relationships).
+
+Advanced RAG techniques beyond basic retrieval include re-ranking retrieved documents with a cross-encoder, query expansion to broaden the search, HyDE (Hypothetical Document Embeddings) which generates a hypothetical answer and embeds that, and iterative or multi-hop retrieval for questions that require chaining multiple lookups.
+
+SECTION 5: VECTOR DATABASES
+
+Vector databases are used for storing and querying high-dimensional vector embeddings to enable fast similarity search. They power semantic search, recommendation systems, and RAG. Examples include FAISS, Pinecone, Weaviate, Qdrant, and Milvus.
+
+FAISS (Facebook AI Similarity Search) is a library developed by Meta for efficient similarity search and clustering of dense vectors. It supports both exact and approximate nearest neighbor algorithms, can run on CPU or GPU, and scales to billions of vectors. FAISS is commonly used as the local vector index in RAG prototypes.
+
+Text embeddings capture semantic meaning by converting text into numerical vectors such that semantically similar texts produce geometrically close vectors. Embedding models are typically trained on contrastive objectives over large text pairs, learning to map paraphrases close together and unrelated texts far apart.
+
+HNSW (Hierarchical Navigable Small World) is an approximate nearest neighbor algorithm that builds a hierarchical graph for logarithmic-complexity search. It offers an excellent recall-vs-latency tradeoff and is the default index in many production vector databases.
+
+Hybrid search in vector databases combines dense vector search with sparse keyword search such as BM25, often fusing the two ranked lists with Reciprocal Rank Fusion (RRF). Hybrid search captures both semantic similarity and exact lexical matches and typically outperforms either method alone.
+
+SECTION 6: LANGCHAIN AND LANGGRAPH
+
+LangChain is an open-source framework for building applications powered by large language models. It provides abstractions for chains, agents, retrievers, memory, and data connections, plus a large ecosystem of integrations. LangChain makes it easy to compose LLM workflows in Python or JavaScript.
+
+LangChain Expression Language (LCEL) is a declarative way to compose chains using the pipe (|) operator. LCEL chains support streaming, async execution, and batching out of the box, and produce uniform Runnable objects that can be combined and traced.
+
+LangGraph extends LangChain for stateful, multi-actor applications expressed as directed graphs. Unlike linear chains, LangGraph supports cycles, checkpoints, and branching, which is useful for agentic workflows that need to loop, retry, or hand off between actors.
+
+LangChain supports several memory types for conversational applications. ConversationBufferMemory stores the raw chat history. ConversationSummaryMemory keeps a running LLM-generated summary. ConversationWindowMemory retains only the most recent N turns. Vector store memory retrieves relevant past turns by similarity.
+
+LangChain retrievers fetch relevant documents from a data source given a query. They are a uniform abstraction supporting vector stores, BM25 keyword indexes, multi-query retrievers, contextual compression, and hybrid combinations.
+
+SECTION 7: LANGSMITH
+
+LangSmith is a platform from the LangChain team for debugging, testing, evaluating, and monitoring LLM applications. It provides automatic tracing of LangChain runs, dataset management, evaluation runners, and a Prompt Hub for versioned prompt management.
+
+LangSmith traces capture inputs, outputs, latency, token usage, and errors for every component in a chain. Each trace forms a tree showing nested runs (LLM calls, retriever calls, tool calls), making it easy to debug and audit complex chains.
+
+The LangSmith Prompt Hub is a repository for storing, versioning, and sharing prompt templates. It supports A/B testing, rollback to previous versions, and pulling prompts at runtime, decoupling prompt iteration from code deployments.
+
+LangSmith helps monitor production LLM applications by providing latency percentiles, error rates, token cost dashboards, and feedback annotations. Teams use LangSmith to detect regressions, capture failing examples into datasets, and run offline evaluations.
+
+LangSmith datasets are used for systematic evaluation of LLM applications. A dataset stores example inputs and expected outputs, against which different model or prompt versions can be compared using built-in or custom evaluators.
+
+SECTION 8: RAGAS EVALUATION
+
+RAGAS is an open-source framework for evaluating Retrieval-Augmented Generation pipelines using LLM-based reference-free metrics. It scores RAG systems on faithfulness, answer relevancy, context recall, context precision, and other dimensions.
+
+RAGAS computes faithfulness by extracting individual claims from the generated answer and checking whether each claim can be inferred from the retrieved context. The faithfulness score is the fraction of claims supported by the context; low scores indicate hallucination.
+
+Answer relevancy in RAGAS measures how well the generated answer addresses the original user question. It generates synthetic questions from the answer and computes their similarity to the original question; higher similarity indicates better relevancy.
+
+Context recall in RAGAS measures how well the retrieved context covers the information needed to answer the question, evaluated against a ground-truth reference answer. High context recall means the retriever surfaced the necessary passages.
+
+RAGAS evaluation requires user queries, generated answers, retrieved contexts (as a list of passages), and optionally reference (ground-truth) answers. Reference-free metrics need only the first three; reference-based metrics like context recall need all four.
+
+SECTION 9: GUARDRAILS AND AI SAFETY
+
+Guardrails AI is an open-source framework for adding validation and safety checks to LLM outputs. Validators are small modular checks (PII detection, JSON schema validation, profanity filters, etc.) that run on model output. Each validator declares an on-fail action such as raise an exception, replace with a fix value, or simply log.
+
+PII (Personally Identifiable Information) such as names, emails, phone numbers, Social Security numbers, and credit card numbers must be detected in LLM responses to comply with privacy regulations including GDPR and HIPAA. Exposing PII in production LLM responses can result in legal liability and user harm.
+
+Structured output validation ensures that LLM responses conform to expected schemas, such as JSON conforming to a particular structure. Validators detect malformed outputs and either reject them or auto-repair common issues like markdown code fences and trailing commas.
+
+Constitutional AI is a technique developed by Anthropic where a model is given a set of principles (a constitution) to follow and uses self-critique to improve its responses. The model critiques and rewrites its own outputs against the principles, reducing the need for human-labeled harmful examples.
+
+Common AI safety concerns with large language models include hallucination (fabricating facts), toxicity, bias, PII leakage, and jailbreaking attacks where users craft adversarial prompts to bypass safety measures. RAG, validators, RLHF, and red-teaming all help mitigate these concerns.
